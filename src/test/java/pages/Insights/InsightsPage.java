@@ -1,4 +1,4 @@
-package pages;
+package pages.Insights;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import pages.Dashboard.BasePage;
+import pages.Dashboard.DashboardPage;
 import utilities.HighchartsUtils;
 import utilities.JSUtilities;
 import utilities.ReusableMethods;

@@ -1,4 +1,4 @@
-package pages;
+package pages.Settings;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import pages.Dashboard.AtlasPage;
+import pages.Dashboard.BasePage;
 import utilities.ReusableMethods;
 
 public class SettingsPage extends BasePage {

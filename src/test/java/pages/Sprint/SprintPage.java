@@ -1,4 +1,4 @@
-package pages;
+package pages.Sprint;
 
 import driver.Driver;
 import io.cucumber.java.After;
@@ -9,6 +9,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pages.Dashboard.BasePage;
 import utilities.HighchartsUtils;
 import utilities.JSUtilities;
 import utilities.ReusableMethods;
@@ -16,7 +17,7 @@ import utilities.TestData.TestDataBase;
 
 import java.util.List;
 
-public class SprintPage extends BasePage{
+public class SprintPage extends BasePage {
     public SprintPage(WebDriver driver) {
 
         super(driver);

@@ -1,4 +1,5 @@
-package pages;
+package pages.Dashboard;
+
 
 import org.junit.Assert;
 import org.openqa.selenium.By;

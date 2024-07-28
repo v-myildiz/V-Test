@@ -1,4 +1,4 @@
-package pages;
+package pages.Contributors;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -6,13 +6,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import pages.Dashboard.BasePage;
 import utilities.HighchartsUtils;
 import utilities.JSUtilities;
 import utilities.ReusableMethods;
 import utilities.TestData.TestDataBase;
 import java.util.Arrays;
 import java.util.List;
-public class ContributorsPage extends BasePage{
+public class ContributorsPage extends BasePage {
     public ContributorsPage(WebDriver driver) {
 
         super(driver);

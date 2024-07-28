@@ -1,9 +1,9 @@
-package stepdefinitions;
+package stepdefinitions.Dashboard;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import pages.DashboardPage;
-import pages.InsightsPage;
+import pages.Dashboard.DashboardPage;
+import pages.Insights.InsightsPage;
 import utilities.ReusableMethods;
 
 public class DashboardPageSteps extends BaseStep {

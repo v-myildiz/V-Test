@@ -1,12 +1,13 @@
-package pages;
+package pages.Projects;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pages.Dashboard.BasePage;
 import utilities.ReusableMethods;
 
-public class ProjectsPage extends BasePage{
+public class ProjectsPage extends BasePage {
     public ProjectsPage(WebDriver driver) {
 
         super(driver);

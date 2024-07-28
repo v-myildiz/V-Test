@@ -1,4 +1,4 @@
-package stepdefinitions;
+package stepdefinitions.Contributors;
 
 import driver.Driver;
 import io.cucumber.java.After;
@@ -13,12 +13,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
-import pages.AtlasPage;
-import pages.ContributorsPage;
+import pages.Contributors.ContributorsPage;
+import stepdefinitions.Dashboard.BaseStep;
 
-public class ContributorsPageStep extends BaseStep{
-    ContributorsPage contributorsPage=new ContributorsPage(driver);
-    AtlasPage atlasPage=new AtlasPage(driver);
+public class ContributorsPageStep extends BaseStep {
+ContributorsPage contributorsPage=new ContributorsPage(driver);
 
     @Then("The user clicks Manage Contributors Button.")
     public void the_user_clicks_manage_contributors_button() {

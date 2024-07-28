@@ -1,9 +1,10 @@
-package pages;
+package pages.DORA;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pages.Dashboard.BasePage;
 import utilities.HighchartsUtils;
 import utilities.JSUtilities;
 import utilities.ReusableMethods;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DoraPage extends BasePage{
+public class DoraPage extends BasePage {
     public DoraPage(WebDriver driver) {
 
         super(driver);

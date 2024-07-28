@@ -1,4 +1,4 @@
-package pages;
+package pages.User_Management;
 
 import com.github.javafaker.Faker;
 import org.junit.Assert;
@@ -6,11 +6,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pages.Dashboard.BasePage;
 import utilities.JSUtilities;
 import utilities.ReusableMethods;
 import utilities.TestData.TestDataBase;
 
-public class UserManagementPage extends BasePage{
+public class UserManagementPage extends BasePage {
     public UserManagementPage(WebDriver driver) {
 
         super(driver);

@@ -1,6 +1,7 @@
-package pages;
+package pages.Dashboard;
 
 import com.github.javafaker.Faker;
+import log.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -141,8 +142,10 @@ public class AtlasPage extends BasePage {
         ReusableMethods.waitForVisibilityNew(driver,avatarCompanies);
         avatarCompanies.click();
         ReusableMethods.wait(1);
-        if (selectedCompany.getText()==company){
+        if (selectedCompany.getText().equals(company)){
             System.out.println("Seçili Company : "+selectedCompany.getText());
+            Logger.info("The company has already been selected.");
+            avatar.click();
         }
         else { switch (company) {
             case "Bahce":

@@ -1,8 +1,9 @@
-package pages;
+package pages.Resource_Distribution;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pages.Dashboard.BasePage;
 import utilities.HighchartsUtils;
 import utilities.JSUtilities;
 import utilities.ReusableMethods;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ResourceDistributionPage extends BasePage{
+public class ResourceDistributionPage extends BasePage {
     public ResourceDistributionPage(WebDriver driver) {
 
         super(driver);

@@ -1,4 +1,4 @@
-package stepdefinitions;
+package stepdefinitions.Settings;
 
 import driver.Driver;
 import io.cucumber.java.After;
@@ -6,9 +6,10 @@ import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import pages.SettingsPage;
+import pages.Settings.SettingsPage;
+import stepdefinitions.Dashboard.BaseStep;
 
-public class SettingsPageSteps extends BaseStep{
+public class SettingsPageSteps extends BaseStep {
     SettingsPage settingsPage=new SettingsPage(driver);
 @After
 public void tearDown(Scenario scenario) {

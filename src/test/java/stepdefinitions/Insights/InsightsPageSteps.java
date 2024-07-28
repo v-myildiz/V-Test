@@ -1,10 +1,11 @@
-package stepdefinitions;
+package stepdefinitions.Insights;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pages.AtlasPage;
-import pages.DashboardPage;
-import pages.InsightsPage;
+import pages.Dashboard.AtlasPage;
+import pages.Dashboard.DashboardPage;
+import pages.Insights.InsightsPage;
+import stepdefinitions.Dashboard.BaseStep;
 import utilities.ReusableMethods;
 
 public class InsightsPageSteps extends BaseStep {

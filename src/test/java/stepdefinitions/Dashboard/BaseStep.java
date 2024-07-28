@@ -1,4 +1,4 @@
-package stepdefinitions;
+package stepdefinitions.Dashboard;
 
 import driver.Driver;
 import org.openqa.selenium.WebDriver;

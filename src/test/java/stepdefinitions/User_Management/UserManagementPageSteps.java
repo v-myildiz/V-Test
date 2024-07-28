@@ -1,4 +1,4 @@
-package stepdefinitions;
+package stepdefinitions.User_Management;
 
 import driver.Driver;
 import io.cucumber.java.After;
@@ -6,10 +6,11 @@ import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import pages.UserManagementPage;
+import pages.User_Management.UserManagementPage;
+import stepdefinitions.Dashboard.BaseStep;
 import utilities.ReusableMethods;
 
-public class UserManagementPageSteps extends BaseStep{
+public class UserManagementPageSteps extends BaseStep {
     UserManagementPage userManagementPage=new UserManagementPage(driver);
     @After
     public void tearDown(Scenario scenario) {

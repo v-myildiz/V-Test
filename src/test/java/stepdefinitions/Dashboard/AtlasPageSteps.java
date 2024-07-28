@@ -1,4 +1,4 @@
-package stepdefinitions;
+package stepdefinitions.Dashboard;
 
 import driver.Driver;
 import io.cucumber.java.After;
@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import pages.AtlasPage;
+import pages.Dashboard.AtlasPage;
 import utilities.ReusableMethods;
 
 import java.util.NoSuchElementException;
