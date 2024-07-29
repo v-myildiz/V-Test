@@ -1,5 +1,5 @@
-@mergeDeveloper
-Feature: Merge Developer Icon Test Test n2
+@mergeDeveloper         # ATLAS - 1477
+Feature: Merge Developer Icon Test n2
 
   Scenario: Check Merge Developer Icon
     Given Login to the website as an User(n2).

@@ -1,5 +1,5 @@
-@connectedApps
-Feature: Connected Apps Disconnect Test n2        #ATLAS-1205
+@connectedApps              # ATLAS - 1205
+Feature: Connected Apps Disconnect Test n2
 
   Scenario: Check disconnection of connected applications.
     Given Login to the website as an User(n2).

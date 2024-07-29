@@ -1,4 +1,5 @@
-@dataPermission
+@dataPermission           # ATLAS - 1527
+
 Feature: Data Access Permission Test n3
 
   Scenario: User Company Permission: (Edit & Manage) Help & Feedback Button Display

@@ -56,6 +56,12 @@ public class ConnectedApplicationsPage extends BasePage {
                     ReusableMethods.wait(1);
                     Logger.info(app + " connection successfully disconnected");
                 }
+                if (appConnectButton2 != null) {
+                    ReusableMethods.waitForVisibilityNew(driver, appConnectButton2);
+                    Assert.assertTrue(appConnectButton2.isDisplayed());
+                    ReusableMethods.wait(1);
+                    Logger.info(app + " connection successfully disconnected");
+                }
                 else {
                     Logger.error(app + " connect button not found.");
                 }

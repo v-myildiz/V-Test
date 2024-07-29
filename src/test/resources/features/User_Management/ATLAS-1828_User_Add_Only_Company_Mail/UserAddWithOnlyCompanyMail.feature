@@ -1,4 +1,4 @@
-@userAdd
+@userAdd              # ATLAS - 1828
 Feature: User Add Only via Company Mail Test n2
 
   Scenario: Check User Add Only via Company Mail

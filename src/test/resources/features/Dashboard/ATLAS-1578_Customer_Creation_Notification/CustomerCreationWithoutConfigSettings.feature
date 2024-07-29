@@ -1,4 +1,4 @@
-@customerCreation
+@customerCreation               # ATLAS - 1578
 Feature: Customer Creation Notification Test n2
 
   Scenario: Check Customer Creation Notification

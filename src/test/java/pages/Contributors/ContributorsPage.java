@@ -1,4 +1,5 @@
 package pages.Contributors;
+import log.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -975,6 +976,7 @@ public class ContributorsPage extends BasePage {
         System.out.println("---------------------------------------------");
     }
 
+    // Merge Developer Icon Control Test
     @FindBy(xpath = "//*[@id=\"data-table_wrapper\"]//*[@class=\"btn btn-primary text-button manage-developer\"]")
     public WebElement manageContributorsButton;
 
@@ -1016,5 +1018,27 @@ public class ContributorsPage extends BasePage {
         }else {Assert.fail();
             System.out.println("Merge Contributors Table can not display");}
     }
+
+    // Checking [bot] Cont. Active-Passive Test
+
+    @FindBy(id = "select2-project_filter-container")
+    public WebElement chooseProjectContributors;
+
+    public void chooseAProject(String project){
+        ReusableMethods.waitForVisibilityNew(driver,chooseProjectContributors);
+        chooseProjectContributors.click();
+        ReusableMethods.wait(2);
+        WebElement projectDropdown=driver.findElement(By.xpath("//*[@id=\"select2-project_filter-results\"]//*[text()='"+project+"']"));
+        ReusableMethods.waitForVisibilityNew(driver,projectDropdown);
+        Logger.info(project+" was selected. ");
+        projectDropdown.click();
+        ReusableMethods.wait(2);
+    }
+
+
+
+
+
+
 
 }

@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
         plugin = {"html:target/html-reports/report.html"},
         features ="src/test/resources/features",
         glue = "stepdefinitions",
-        tags = "@connectedApps",
+        tags = "@[bot]",
         dryRun=false
 
 
