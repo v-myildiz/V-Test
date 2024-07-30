@@ -44,12 +44,14 @@ ContributorsPage contributorsPage=new ContributorsPage(driver);
     }
 
     @Then("The user writes {string} into the search box.")
-    public void the_user_writes_into_the_search_box(String string) {
+    public void the_user_writes_into_the_search_box(String text) {
+        contributorsPage.enterTextContributorsSearchBox(text);
 
     }
 
     @Then("The user checks [bot] contributors who were passive.")
     public void the_user_checks_bot_contributors_who_were_passive() {
+        contributorsPage.checkBotContributorsWerePassive();
 
     }
 

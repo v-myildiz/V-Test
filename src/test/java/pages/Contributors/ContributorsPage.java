@@ -1035,10 +1035,62 @@ public class ContributorsPage extends BasePage {
         ReusableMethods.wait(2);
     }
 
+    @FindBy(xpath = "//*[@type=\"search\"]")
+    public WebElement searchBoxContributors;
 
+    public void enterTextContributorsSearchBox(String text){
+        ReusableMethods.waitForVisibilityNew(driver,searchBoxContributors);
+        searchBoxContributors.sendKeys(text);
+        ReusableMethods.wait(2);
+    }
 
+    @FindBy(xpath = "(//*[@id=\"data-table\"]//th[@class])[1]")
+    public WebElement passiveBoxContributors;
 
+    @FindBy(xpath = "//*[@id=\"data-table\"]//*[@class=\"developer odd\"]")
+    public WebElement activeContributorOdd;
 
+    @FindBy(xpath = "//*[@id=\"data-table\"]//*[@class=\"developer even\"]")
+    public WebElement activeContributorEven;
 
+    @FindBy(xpath = "//*[@id=\"data-table\"]//*[@class=\"developer passive odd\"]")
+    public WebElement passiveContributorOdd;
 
+    @FindBy(xpath = "//*[@id=\"data-table\"]//*[@class=\"developer passive even\"]")
+    public WebElement passiveContributorEven;
+
+    public void checkBotContributorsWerePassive() {
+        ReusableMethods.waitForVisibilityNew(driver, passiveBoxContributors);
+
+        if (isElementDisplayed(passiveContributorOdd)){
+            WebElement targetTd = passiveContributorOdd.findElement(By.cssSelector("td.text.sorting_1"));
+            String textContent = targetTd.getText();
+            Logger.info("Passive Contributor Odd Name : "+textContent);
+        }  if (isElementDisplayed(passiveContributorEven)) {
+            WebElement targetTd = passiveContributorEven.findElement(By.cssSelector("td.text.sorting_1"));
+            String textContent = targetTd.getText();
+            Logger.info("Passive Contributor Even Name : "+textContent);
+        }else {
+            Logger.error("There is no Passive Contributors !");
+            Assert.fail();
+        }
+
+        List<WebElement> elementsOdd = driver.findElements(By.xpath("//*[@id='data-table']//*[@class='developer passive odd']"));
+            int flag = 0;
+            for (WebElement elementOdd : elementsOdd) {
+                WebElement targetTd = elementOdd.findElement(By.cssSelector("td.text.sorting_1"));
+                String textContent = targetTd.getText();
+                flag++;
+                Logger.info(flag + ". [bot] Contributor Odd Name : " + textContent);
+            }
+
+        List<WebElement> elementsEven = driver.findElements(By.xpath("//*[@id='data-table']//*[@class='developer passive even']"));
+            for (WebElement elementEven : elementsEven) {
+                WebElement targetTd = elementEven.findElement(By.cssSelector("td.text.sorting_1"));
+                String textContent = targetTd.getText();
+                flag++;
+                Logger.info(flag + ". [bot] Contributor Even Name : " + textContent);
+            }
+            ReusableMethods.wait(2);
+    }
 }
