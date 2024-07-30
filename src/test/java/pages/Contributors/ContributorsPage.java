@@ -1030,7 +1030,7 @@ public class ContributorsPage extends BasePage {
         ReusableMethods.wait(2);
         WebElement projectDropdown=driver.findElement(By.xpath("//*[@id=\"select2-project_filter-results\"]//*[text()='"+project+"']"));
         ReusableMethods.waitForVisibilityNew(driver,projectDropdown);
-        Logger.info(project+" was selected. ");
+        Logger.info(project+" project was selected. ");
         projectDropdown.click();
         ReusableMethods.wait(2);
     }
@@ -1063,34 +1063,38 @@ public class ContributorsPage extends BasePage {
         ReusableMethods.waitForVisibilityNew(driver, passiveBoxContributors);
 
         if (isElementDisplayed(passiveContributorOdd)){
-            WebElement targetTd = passiveContributorOdd.findElement(By.cssSelector("td.text.sorting_1"));
-            String textContent = targetTd.getText();
-            Logger.info("Passive Contributor Odd Name : "+textContent);
-        }  if (isElementDisplayed(passiveContributorEven)) {
-            WebElement targetTd = passiveContributorEven.findElement(By.cssSelector("td.text.sorting_1"));
-            String textContent = targetTd.getText();
-            Logger.info("Passive Contributor Even Name : "+textContent);
-        }else {
-            Logger.error("There is no Passive Contributors !");
-            Assert.fail();
-        }
 
-        List<WebElement> elementsOdd = driver.findElements(By.xpath("//*[@id='data-table']//*[@class='developer passive odd']"));
+            List<WebElement> elementsOdd = driver.findElements(By.xpath("//*[@id='data-table']//*[@class='developer passive odd']"));
             int flag = 0;
             for (WebElement elementOdd : elementsOdd) {
                 WebElement targetTd = elementOdd.findElement(By.cssSelector("td.text.sorting_1"));
                 String textContent = targetTd.getText();
                 flag++;
-                Logger.info(flag + ". [bot] Contributor Odd Name : " + textContent);
+                Logger.info(flag + ". Passive [bot] Contributor Odd Name : " + textContent);
             }
 
-        List<WebElement> elementsEven = driver.findElements(By.xpath("//*[@id='data-table']//*[@class='developer passive even']"));
+        }if (isElementDisplayed(activeContributorOdd)){
+            Logger.error("There is active [bot] Contributors!");
+            Assert.fail();
+        }
+        if (isElementDisplayed(passiveContributorEven)) {
+            int flag = 0;
+            List<WebElement> elementsEven = driver.findElements(By.xpath("//*[@id='data-table']//*[@class='developer passive even']"));
             for (WebElement elementEven : elementsEven) {
                 WebElement targetTd = elementEven.findElement(By.cssSelector("td.text.sorting_1"));
                 String textContent = targetTd.getText();
                 flag++;
-                Logger.info(flag + ". [bot] Contributor Even Name : " + textContent);
+                Logger.info(flag + ". Passive [bot] Contributor Even Name : " + textContent);
             }
-            ReusableMethods.wait(2);
+        }
+        if (isElementDisplayed(activeContributorEven)){
+            Logger.error("There is active [bot] Contributors!");
+            Assert.fail();
+        }
+        else {
+            Logger.error("There is no Passive Contributors !");
+            Assert.fail();
+        }
+        ReusableMethods.wait(2);
     }
 }
