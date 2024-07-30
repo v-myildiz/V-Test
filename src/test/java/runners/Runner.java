@@ -5,12 +5,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {"html:target/html-reports/rapor.html",
-                "json:target/json-reports/cucumber.json",
-                "junit:target/xml-report/cucumber.xml"},
+        plugin = {"html:target/html-reports/report.html"},
         features ="src/test/resources/features",
         glue = "stepdefinitions",
-        tags = "@userAdd",
+        tags = "@[bot]",
         dryRun=false
 
 

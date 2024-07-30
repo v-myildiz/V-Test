@@ -19,58 +19,58 @@ public class Driver {
 
     public static WebDriver getDriver(){
         String browserType = GlobalVars.browser;
-        Logger.info("Driver name "+browserType);
+       // Logger.info("Driver name "+browserType);
         if (driver == null){
-            Logger.info("Driver is null");
+            //Logger.info("Driver is null");
             switch (browserType){
 
                 case "firefox" :
                     driver = new FirefoxDriver();
-                    Logger.info("Driver equal Firefox");
+                    //Logger.info("Driver equal Firefox");
                     break;
 
                 case "edge" :
                     driver = new EdgeDriver();
-                    Logger.info("Driver equal Edge");
+                    //Logger.info("Driver equal Edge");
                     break;
 
                 case "safari" :
                     driver = new SafariDriver();
-                    Logger.info("Driver equal Safari");
+                    //Logger.info("Driver equal Safari");
                     break;
                 default:
                     driver = new ChromeDriver();
-                    Logger.info("Driver default Chrome");
+                    //Logger.info("Driver default Chrome");
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-                    Logger.info("Chrome option is normal");
+                    //Logger.info("Chrome option is normal");
                     chromeOptions.setPageLoadTimeout(Duration.ofSeconds(GlobalVars.DefaultExplicitTimeOut));
-                    Logger.info("Chrome set page load timeout "+ GlobalVars.DefaultExplicitTimeOut + " second");
+                    //Logger.info("Chrome set page load timeout "+ GlobalVars.DefaultExplicitTimeOut + " second");
             }
             driver.manage().window().maximize();
-            Logger.info("window is maximize");
+            //Logger.info("window is maximize");
         }
         return driver;
 
     }
     public static void closeDriver() {
         if (driver != null) {
-            Logger.info("Driver is not null");
+            //Logger.info("Driver is not null");
             driver.quit();
-            Logger.info("Driver is closed in Driver class");
+            //Logger.info("Driver is closed in Driver class");
             driver = null;
-            Logger.info("Driver is now nul");
+            //Logger.info("Driver is now nul");
         }
     }
 
     public static void quitDriver(){
 
         if (driver != null){
-            Logger.info("Driver is not null");
+            //Logger.info("Driver is not null");
             driver.quit();
-            Logger.info("Driver is closed in Driver class");
+            //Logger.info("Driver is closed in Driver class");
             driver = null;
-            Logger.info("Driver is now nul");
+            //Logger.info("Driver is now nul");
         }
     }
 }

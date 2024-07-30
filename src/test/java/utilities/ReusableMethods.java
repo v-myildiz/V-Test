@@ -21,8 +21,6 @@ public class ReusableMethods {
     public ReusableMethods(WebDriver driver) {
         this.driver = driver;
     }
-    //========Switching Window=====//
-
     //SwitchToWindow1
     public static void switchToWindow(int sayi){
         List<String> tumWindowHandles = new ArrayList<String>(driver.getWindowHandles());
@@ -43,6 +41,7 @@ public class ReusableMethods {
         }
         driver.switchTo().window(origin);
     }
+
     public static void scrollToElementWithAction(WebElement element) {
         WebElement bottom = element;
         Actions actions = new Actions(driver);
@@ -53,6 +52,7 @@ public class ReusableMethods {
         WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(GlobalVars.DefaultExplicitTimeOut));
         wait.until(ExpectedConditions.elementToBeClickable(webElement)).sendKeys(textToType);
     }
+
     public static void click(WebElement webElement){
         WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(GlobalVars.DefaultExplicitTimeOut));
         wait.until(ExpectedConditions.elementToBeClickable(webElement)).click();
@@ -68,6 +68,7 @@ public class ReusableMethods {
         waitForClickablility(element);
         new Actions(driver).doubleClick(element).build().perform();
     }
+
     public static void selectByVisibleText(WebElement element, String text) {
         Select objSelect = new Select(element);
         objSelect.selectByVisibleText(text);
@@ -84,33 +85,27 @@ public class ReusableMethods {
         objSelect.selectByValue(value);
         System.out.println("number of elements: " + elementCount.size());
     }
-
-
     //Alert ACCEPT
     public static void alertAccept(WebDriver driver) {
         alertWait();
         driver.switchTo().alert().accept();
 
     }
-
     //Alert DISMISS
     public static void alertDismiss(WebDriver driver) {
         alertWait();
         driver.switchTo().alert().dismiss();
     }
-
     //Alert getText()
     public static void alertText(WebDriver driver) {
         alertWait();
         driver.switchTo().alert().getText();
     }
-
     //Alert promptBox
     public static void alertSentText(WebDriver driver,String text) {
         alertWait();
         driver.switchTo().alert().sendKeys(text);
     }
-
     //Click Method
     public static void clickWithJs1(WebElement element) {
         try {
@@ -120,14 +115,12 @@ public class ReusableMethods {
             js.executeScript("arguments[0].click();", element);
         }
     }
-
     //JS Scroll
     public static void scrollWithJs(WebElement element) {
         waitForVisibility(element);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(true);", element);
     }
-
     //JS SendKeys
     public static void sendKeysWithJS(WebElement element, String text) {
         waitForClickablility(element);
@@ -135,17 +128,11 @@ public class ReusableMethods {
         js.executeScript("arguments[0].value='" + text + "'", element);
     }
 
-    /**
-     * Clicks on an element using JavaScript
-     *
-     * @param element
-     */
     public static void clickWithJS2(WebElement element) {
         waitForClickablility(element);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
-
 
     public static void cleanByJs(WebElement element) {
         waitForVisibility(element);
@@ -153,22 +140,12 @@ public class ReusableMethods {
         jse.executeScript("arguments[0].value = '';", element);
     }
 
-
-    /**
-     * JavaScript ile webelement olusturma
-     *
-     * @param javascriptYolu internet sitesinden sag klik ile JS yolunu kopyala ile alınan metin olacak
-     */
     public static WebElement webelementJavaScript(String javascriptYolu) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebElement webElement = (WebElement) js.executeScript("return " + javascriptYolu + "");
         return webElement;
     }
 
-    /**
-     * bu metot ile JS yolu string olarak verilen elementi JavascriptExecutor kullanarak tiklayabilirim
-     * @param //webElement click yapilacak webelement yolu string olarak verilir
-     */
     public static void clickJSElementWithJavaScript(String javascriptYolu) {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         WebElement webElement = (WebElement) jse.executeScript("return " + javascriptYolu + "");
@@ -176,11 +153,6 @@ public class ReusableMethods {
 
     }
 
-    /**
-     * Bu metot ile elementin xpath değeri string olarak verilerek o classtaki text alinir.
-     *     * @param  xpath text degeri alinmak istenen elementin xpathi string olarak verilir
-     * @return
-     */
     public static String getTextWithJavaScriptXpath(String xpath) {
         WebElement element = driver.findElement(By.xpath(xpath));
 
@@ -189,7 +161,6 @@ public class ReusableMethods {
         String text = (String) jsExecutor.executeScript("return arguments[0].textContent;", element);
         return text;
     }
-
 
     public static WebElement waitForVisibility(WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVars.DefaultExplicitTimeOut));
@@ -201,7 +172,6 @@ public class ReusableMethods {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-
     public static WebElement waitForClickablility(WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVars.DefaultExplicitTimeOut));
         return wait.until(ExpectedConditions.elementToBeClickable(element));
@@ -211,14 +181,12 @@ public class ReusableMethods {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVars.DefaultExplicitTimeOut));
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
-
     //Alert Wait
     public static void alertWait() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVars.DefaultExplicitTimeOut));
         wait.until(ExpectedConditions.alertIsPresent());
 
     }
-
     //HARD WAIT METHOD
     public static void wait(int saniye) {
         try {
@@ -227,7 +195,6 @@ public class ReusableMethods {
             throw new RuntimeException(e);
         }
     }
-
     //WebElement ScreenShot
     public static void webElementScreenShoot(WebElement element){
         String tarih = new SimpleDateFormat("_hh_mm_ss_ddMMyyyy").format(new Date());
@@ -238,8 +205,6 @@ public class ReusableMethods {
             throw new RuntimeException(e);
         }
     }
-
-
     //==========Return a list of string given a list of Web Element====////
     public static List<String> getElementsText(List<WebElement> list) {
         List<String> elemTexts = new ArrayList<>();
@@ -250,6 +215,7 @@ public class ReusableMethods {
         }
         return elemTexts;
     }
+
     public static List<String> stringListeCevir(List<WebElement> webElementList){
 
         List<String> stringList = new ArrayList<>();
@@ -262,5 +228,26 @@ public class ReusableMethods {
 
         return stringList;
     }
+/*
+    public static boolean isElementDisplayed(WebElement element) {
+        try {
+            return element.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+*/
+
+    public static boolean isElementDisplayed(WebElement element) {
+        if (element == null) {
+            return false;
+        }
+        try {
+            return element.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
 
 }
