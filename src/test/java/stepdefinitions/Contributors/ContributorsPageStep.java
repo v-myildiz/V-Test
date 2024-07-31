@@ -55,14 +55,11 @@ ContributorsPage contributorsPage=new ContributorsPage(driver);
 
     }
 
-    @Then("The user changes [bot] contributors as an active.")
-    public void the_user_changes_bot_contributors_as_an_active() {
+    @Then("The user changes [bot] contributors as an active and checks.")
+    public void the_user_changes_bot_contributors_as_an_active_and_checks() {
+        contributorsPage.changeBotContributorsAsAnActive();
 
     }
 
-    @Then("The user checks [bot] contributors are active.")
-    public void the_user_checks_bot_contributors_are_active() {
-
-    }
 
 }

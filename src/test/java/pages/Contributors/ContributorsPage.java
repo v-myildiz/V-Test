@@ -1061,16 +1061,16 @@ public class ContributorsPage extends BasePage {
 
     public void checkBotContributorsWerePassive() {
         ReusableMethods.waitForVisibilityNew(driver, passiveBoxContributors);
+        int flag = 0;
 
         if (isElementDisplayed(passiveContributorOdd)){
 
             List<WebElement> elementsOdd = driver.findElements(By.xpath("//*[@id='data-table']//*[@class='developer passive odd']"));
-            int flag = 0;
             for (WebElement elementOdd : elementsOdd) {
                 WebElement targetTd = elementOdd.findElement(By.cssSelector("td.text.sorting_1"));
                 String textContent = targetTd.getText();
                 flag++;
-                Logger.info(flag + ". Passive [bot] Contributor Odd Name : " + textContent);
+                Logger.info(flag + ". Passive [bot] Contributor Name : " + textContent);
             }
 
         }if (isElementDisplayed(activeContributorOdd)){
@@ -1078,23 +1078,53 @@ public class ContributorsPage extends BasePage {
             Assert.fail();
         }
         if (isElementDisplayed(passiveContributorEven)) {
-            int flag = 0;
             List<WebElement> elementsEven = driver.findElements(By.xpath("//*[@id='data-table']//*[@class='developer passive even']"));
             for (WebElement elementEven : elementsEven) {
                 WebElement targetTd = elementEven.findElement(By.cssSelector("td.text.sorting_1"));
                 String textContent = targetTd.getText();
                 flag++;
-                Logger.info(flag + ". Passive [bot] Contributor Even Name : " + textContent);
+                Logger.info(flag + ". Passive [bot] Contributor Name : " + textContent);
             }
         }
         if (isElementDisplayed(activeContributorEven)){
             Logger.error("There is active [bot] Contributors!");
             Assert.fail();
         }
-        else {
-            Logger.error("There is no Passive Contributors !");
-            Assert.fail();
-        }
         ReusableMethods.wait(2);
     }
+
+    @FindBy(xpath = "//*[@class=\"select-checkbox sorting_disabled\"]")
+    public WebElement checkAllBoxContributors;
+
+    @FindBy(xpath = "//*[@class=\"select-checkbox sorting_disabled selected\"]")
+    public WebElement checkAllBoxSelectedContributors;
+
+    @FindBy(xpath = "//*[@class=\"btn btn-primary text-button merge\"]")
+    public WebElement mergeContributorsButton;
+
+    @FindBy(xpath = "//*[@class=\"btn btn-primary text-button enabled\"]//*[text()='Mark as Passive']")
+    public WebElement markAsPassiveButton;
+
+    @FindBy(xpath = "//*[@class=\"btn btn-primary text-button enabled\"]//*[text()='Mark as Active']")
+    public WebElement markAsActiveButton;
+
+    @FindBy(xpath = "//*[text()='OK']")
+    public WebElement okButton;
+
+    public void changeBotContributorsAsAnActive(){
+        ReusableMethods.waitForVisibilityNew(driver,checkAllBoxContributors);
+        checkAllBoxContributors.click();
+        ReusableMethods.waitForVisibilityNew(driver,markAsActiveButton);
+        markAsActiveButton.click();
+        ReusableMethods.waitForVisibilityNew(driver,okButton);
+        okButton.click();
+        ReusableMethods.waitForVisibilityNew(driver,checkAllBoxContributors);
+        checkAllBoxContributors.click();
+        ReusableMethods.wait(2);
+        Assert.assertTrue(markAsPassiveButton.isDisplayed());
+        Logger.info("Contributors marked as an Active!");
+        ReusableMethods.wait(3);
+    }
+
+
 }

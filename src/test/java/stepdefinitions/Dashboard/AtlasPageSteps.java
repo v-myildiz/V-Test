@@ -33,10 +33,20 @@ public class AtlasPageSteps extends BaseStep {
 
     }
 
-    @Given("Login to the website as an User\\(n2).")
+    @Given("Login to the website as an Use\\(n2).")
     public void login_to_the_website_as_an_user_n2() {
-
         atlasPage.loginN2();
+    }
+
+    @Given("Login to the website as an User {string}.")
+    public void login_to_the_website_as_an_user(String environment) {
+        if (environment.equals("n2")){
+            atlasPage.loginN2();}
+
+        else if (environment.equals("n3")) {
+            atlasPage.loginUserDataAccessTestN3();
+        }
+
     }
 
     @Then("The user should be able to display the Help & Feedback button on all pages in the sidebar.")
@@ -58,8 +68,5 @@ public class AtlasPageSteps extends BaseStep {
     @When("The user selects company {string} and goes to page {string}.")
     public void the_user_selects_company_and_goes_to_page(String company, String page) {
         atlasPage.loginWithCompanyAndGoToPage(company,page);
-
-
-
     }
 }
