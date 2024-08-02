@@ -544,5 +544,118 @@ public class AtlasPage extends BasePage {
         checkAutomationsHelpFeedbackContentWithPermissionSwitch();
         checkConnectedApplicationsHelpFeedbackContentWithPermissionSwitch();
     }
-    
+
+    // Case-Insensitive Search in Atlas Pages
+    @FindBy(xpath = "//*[@class=\"select2-results__option select2-results__message\"]")
+    public WebElement projectSearchNoResultFoundText;
+
+    @FindBy(xpath = "//*[@class=\"app-subsidebar active\"]//*[text()='Code Progress']")
+    public WebElement codeProgressInsights;
+
+    @FindBy(xpath = "//*[@class=\"app-subsidebar active\"]//*[text()='Dev. Behaviors']")
+    public WebElement devBehaviorsInsights;
+
+    @FindBy(xpath = "//*[@class=\"app-subsidebar active\"]//*[text()='Project Health']")
+    public WebElement projectHealthInsights;
+
+    @FindBy(xpath = "//*[@class=\"app-subsidebar active\"]//*[text()='Activities']")
+    public WebElement activitiesInsights;
+
+    @FindBy(id = "select2-project_filter-container")
+    public WebElement projectFilterBox;
+
+    @FindBy(xpath = "(//*[@id=\"select2-project_filter-results\"]//li)[1]")
+    public WebElement firstProjectInProjectFilter;
+
+    @FindBy(xpath = "//*[@class=\"select2-results__option select2-results__option--highlighted\"]")
+    public WebElement projectSearchResultText;
+
+    @FindBy(id = "select2-team_filter-container")
+    public WebElement teamFilterBox;
+
+    @FindBy(xpath = "(//*[@id=\"select2-team_filter-results\"]//li)[2]")
+    public WebElement firstTeamInTeamFilter;
+
+    @FindBy(xpath = "//*[@class=\"select2-results__option select2-results__option--highlighted\"]")
+    public WebElement teamSearchResultText;
+
+    @FindBy(id = "select2-epic_filter-container")
+    public WebElement epicFilterBox;
+
+    @FindBy(xpath = "(//*[@id=\"select2-epic_filter-results\"]//li)[2]")
+    public WebElement firstEpicInEpicFilter;
+
+    @FindBy(xpath = "//*[@type=\"search\"]")
+    public WebElement searchBox;
+
+    public void projectSearch(){
+        ReusableMethods.waitForVisibilityNew(driver,projectFilterBox);
+        projectFilterBox.click();
+        String firstProjectUpperCase=firstProjectInProjectFilter.getText().toUpperCase();
+        searchBox.sendKeys(firstProjectUpperCase);
+        ReusableMethods.wait(2);
+        if(projectSearchResultText.getText().toUpperCase().contains(firstProjectUpperCase)){
+            Logger.info("Project Search Box Result Are Case-InSensitive!");
+        }else {Logger.error("Project Search Box Result Are Case-Sensitive!");}
+    }
+
+    public void teamSearch(){
+        ReusableMethods.waitForVisibilityNew(driver,teamFilterBox);
+        teamFilterBox.click();
+        ReusableMethods.waitForVisibilityNew(driver,searchBox);
+        String firstTeamUpperCase=firstTeamInTeamFilter.getText().toUpperCase();
+        searchBox.sendKeys(firstTeamUpperCase);
+        ReusableMethods.wait(2);
+        if(teamSearchResultText.getText().toUpperCase().contains(firstTeamUpperCase)){
+            Logger.info("Team Search Box Result Are Case-InSensitive!");
+        }else {Logger.error("Team Search Box Result Are Case-Sensitive!");}
+    }
+
+    public void overviewInsight(){
+        projectSearch();
+
+    }
+
+    public void codeProgressInsight(){
+        codeProgressInsights.click();
+        projectSearch();
+        teamSearch();
+
+    }
+
+    public void devBehaviorsInsight(){}
+
+    public void projectHealthInsight(){}
+
+    public void activitiesInsight(){}
+
+    public void checkSearchCaseInSensitiveInsights(){
+        overviewInsight();
+        codeProgressInsight();
+
+
+
+
+
+
+
+    }
+
+    public void checkSearchCaseInSensitiveDORA(){}
+
+    public void checkSearchCaseInSensitiveResourceDistribution(){}
+
+    public void checkSearchCaseInSensitiveSprint(){}
+
+    public void checkSearchCaseInSensitiveContributors(){}
+
+    public void checkSearchCaseInSensitiveProjects(){}
+
+    public void checkSearchCaseInSensitiveAutomations(){}
+
+    public void checkSearchCaseInSensitiveSettings(){}
+
+    public void checkSearchCaseInSensitiveUserManagement(){}
+
+
 }

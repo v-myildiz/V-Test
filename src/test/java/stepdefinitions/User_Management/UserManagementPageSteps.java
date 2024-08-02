@@ -3,6 +3,7 @@ package stepdefinitions.User_Management;
 import driver.Driver;
 import io.cucumber.java.After;
 import io.cucumber.java.Scenario;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -39,6 +40,12 @@ public class UserManagementPageSteps extends BaseStep {
     @Then("The user should add a new user {string} with an email that may be a company email {string}.")
     public void the_user_should_add_a_new_user_with_an_email_that_may_be_a_company_email(String name, String mail) {
         userManagementPage.addAtlasUserCorrect(name,mail);
+
+    }
+
+    @And("The user deletes the added user {string}.")
+    public void the_user_deletes_the_added_user(String name) {
+        userManagementPage.deleteUser(name);
 
     }
 
