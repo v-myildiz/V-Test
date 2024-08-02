@@ -1,10 +1,12 @@
 package pages.User_Management;
 
 import com.github.javafaker.Faker;
+import log.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import pages.Dashboard.BasePage;
 import utilities.JSUtilities;
@@ -65,5 +67,29 @@ public class UserManagementPage extends BasePage {
         ReusableMethods.wait(3);
     }
 
+    @FindBy(xpath ="//*[@class=\"btn btn-main-primary\"]")
+    public WebElement okButton;
+
+    public void deleteUser(String name){
+        WebElement userRow = driver.findElement(By.xpath("//tr[.//span[text()='"+name+"']]"));
+        String userId = userRow.getAttribute("id");
+        Logger.info(name+" ID: "+userId);
+        WebElement userAddedOptions=driver.findElement(By.xpath("//*[@id="+userId+"]//*[@class=\"s-icon options\"]"));
+        userAddedOptions.click();
+        WebElement deleteUser=driver.findElement(By.xpath("(//*[@class=\"dropdown show\"]//a)[3]"));
+        ReusableMethods.waitForVisibilityNew(driver,deleteUser);
+        ReusableMethods.wait(2);
+        deleteUser.click();
+        ReusableMethods.waitForVisibilityNew(driver,okButton);
+        ReusableMethods.wait(2);
+        okButton.click();
+        ReusableMethods.wait(2);
+        try {
+            Assert.assertTrue(userRow.isDisplayed());
+            Logger.error(name+" User couldn't delete!");
+        } catch (Exception e) {
+            Logger.info(name+" User deleted!");
+        }
+    }
 
 }
