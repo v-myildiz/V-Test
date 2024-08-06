@@ -1,17 +1,12 @@
 package pages.Dashboard;
 
-import com.github.javafaker.Faker;
 import log.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import utilities.JSUtilities;
 import utilities.ReusableMethods;
 import utilities.TestData.TestDataBase;
-
 
 
 public class AtlasPage extends BasePage {
@@ -20,13 +15,14 @@ public class AtlasPage extends BasePage {
         super(driver);
     }
 
-    Faker faker=new Faker();
-
     @FindBy(xpath = "//*[@type=\"email\"]")
     public WebElement mailBox;
 
     @FindBy(xpath = "//*[@type=\"password\"]")
     public WebElement passwordBox;
+
+    @FindBy(id = "opt_input_0_632")
+    public WebElement otpField;
 
     @FindBy(xpath = "//form[@id]//button")
     public WebElement signInText;
@@ -98,11 +94,14 @@ public class AtlasPage extends BasePage {
         signInText.click();
     }
 
+    @FindBy(xpath = "//*[@class=\"demo\"]//*[@class=\"btn btn-outline-primary\"]")
+    public WebElement disableDemoModeButton;
+
     public void selectDemoMode(){
         avatar.click();
-        ReusableMethods.wait(3);
+        ReusableMethods.waitForVisibilityNew(driver,demoMode);
         demoMode.click();
-        ReusableMethods.wait(3);
+        ReusableMethods.waitForVisibilityNew(driver,disableDemoModeButton);
     }
 
     public void loadHomePageN2() {
@@ -143,8 +142,6 @@ public class AtlasPage extends BasePage {
         avatarCompanies.click();
         ReusableMethods.wait(1);
         if (selectedCompany.getText().equals(company)){
-            System.out.println("Seçili Company : "+selectedCompany.getText());
-            Logger.info("The company has already been selected.");
             avatar.click();
         }
         else { switch (company) {
@@ -567,6 +564,9 @@ public class AtlasPage extends BasePage {
     @FindBy(xpath = "(//*[@id=\"select2-project_filter-results\"]//li)[1]")
     public WebElement firstProjectInProjectFilter;
 
+    @FindBy(xpath = "(//*[@id=\"select2-project_filter-results\"]//li)[2]")
+    public WebElement secondProjectInProjectFilter;
+
     @FindBy(xpath = "//*[@class=\"select2-results__option select2-results__option--highlighted\"]")
     public WebElement projectSearchResultText;
 
@@ -585,30 +585,97 @@ public class AtlasPage extends BasePage {
     @FindBy(xpath = "(//*[@id=\"select2-epic_filter-results\"]//li)[2]")
     public WebElement firstEpicInEpicFilter;
 
-    @FindBy(xpath = "//*[@type=\"search\"]")
+    @FindBy(xpath = "//*[@class=\"select2-search select2-search--dropdown\"]//*[@type=\"search\"]")
     public WebElement searchBox;
 
+    @FindBy(xpath = "//*[@id=\"issues-table_filter\"]//*[@type=\"search\"]")
+    public WebElement searchBoxTimeInState;
+
+    @FindBy(xpath = "//*[@class=\"breadcrumb-item active\"]")
+    public WebElement pageTitleDefault;
+
+    @FindBy(xpath = "(//*[@class=\"breadcrumb-item\"])[1]")
+    public WebElement pageTitle1;
+
+    @FindBy(xpath = "(//*[@class=\"breadcrumb-item\"])[2]")
+    public WebElement pageTitle2;
+
     public void projectSearch(){
+        String activePageText="";
+        if (isElementDisplayed(pageTitle2)&isElementDisplayed(pageTitle1)){
+            activePageText=pageTitle2.getText()+"-"+pageTitle1.getText();
+        } else if (isElementDisplayed(pageTitle1)) {
+            activePageText=pageTitle1.getText();
+        }
+        else {
+            activePageText=pageTitleDefault.getText();
+        }
         ReusableMethods.waitForVisibilityNew(driver,projectFilterBox);
         projectFilterBox.click();
+        ReusableMethods.wait(1);
         String firstProjectUpperCase=firstProjectInProjectFilter.getText().toUpperCase();
+        String secondProjectUpperCase=secondProjectInProjectFilter.getText().toUpperCase();
+        if(firstProjectInProjectFilter.getText().equalsIgnoreCase("all")){
+            firstProjectUpperCase=secondProjectUpperCase;
+        }
         searchBox.sendKeys(firstProjectUpperCase);
-        ReusableMethods.wait(2);
+        ReusableMethods.wait(1);
         if(projectSearchResultText.getText().toUpperCase().contains(firstProjectUpperCase)){
-            Logger.info("Project Search Box Result Are Case-InSensitive!");
-        }else {Logger.error("Project Search Box Result Are Case-Sensitive!");}
+            Logger.infoWithPage("Project Search Box Result Are Case-InSensitive",activePageText);
+        }else {
+            Logger.errorWithPage("Project Search Box Result Are Case-Sensitive",activePageText);
+            Assert.fail();
+        }
     }
 
     public void teamSearch(){
+        String activePageText="";
+        if (isElementDisplayed(pageTitle2)&isElementDisplayed(pageTitle1)){
+            activePageText=pageTitle2.getText()+"-"+pageTitle1.getText();
+        } else if (isElementDisplayed(pageTitle1)) {
+            activePageText=pageTitle1.getText();
+        }
+        else {
+            activePageText=pageTitleDefault.getText();
+        }
         ReusableMethods.waitForVisibilityNew(driver,teamFilterBox);
         teamFilterBox.click();
+        ReusableMethods.wait(1);
         ReusableMethods.waitForVisibilityNew(driver,searchBox);
         String firstTeamUpperCase=firstTeamInTeamFilter.getText().toUpperCase();
         searchBox.sendKeys(firstTeamUpperCase);
-        ReusableMethods.wait(2);
+        ReusableMethods.wait(1);
         if(teamSearchResultText.getText().toUpperCase().contains(firstTeamUpperCase)){
-            Logger.info("Team Search Box Result Are Case-InSensitive!");
-        }else {Logger.error("Team Search Box Result Are Case-Sensitive!");}
+            Logger.infoWithPage("Team Search Box Result Are Case-InSensitive",activePageText);
+        }else {
+            Logger.errorWithPage("Team Search Box Result Are Case-Sensitive",activePageText);
+            Assert.fail();
+        }
+    }
+
+    public void epicSearch(){
+        String activePageText="";
+        if (isElementDisplayed(pageTitle2)&isElementDisplayed(pageTitle1)){
+            activePageText=pageTitle2.getText()+"-"+pageTitle1.getText();
+        } else if (isElementDisplayed(pageTitle1)) {
+            activePageText=pageTitle1.getText();
+        }
+        else {
+            activePageText=pageTitleDefault.getText();
+        }
+        ReusableMethods.waitForVisibilityNew(driver,epicFilterBox);
+        epicFilterBox.click();
+        ReusableMethods.wait(1);
+        ReusableMethods.waitForVisibilityNew(driver,searchBox);
+        String firstEpicUpperCase=firstEpicInEpicFilter.getText().toUpperCase();
+        searchBox.sendKeys(firstEpicUpperCase);
+        ReusableMethods.wait(1);
+        if(teamSearchResultText.getText().toUpperCase().contains(firstEpicUpperCase)){
+            Logger.infoWithPage("Epic Search Box Result Are Case-InSensitive",activePageText);
+        }else {
+            Logger.errorWithPage("Epic Search Box Result Are Case-Sensitive",activePageText);
+            Assert.fail();
+        }
     }
 
     public void overviewInsight(){
@@ -620,18 +687,411 @@ public class AtlasPage extends BasePage {
         codeProgressInsights.click();
         projectSearch();
         teamSearch();
-
+        epicSearch();
     }
 
-    public void devBehaviorsInsight(){}
+    public void devBehaviorsInsight(){
+        devBehaviorsInsights.click();
+        projectSearch();
+        teamSearch();
+        epicSearch();
+    }
 
-    public void projectHealthInsight(){}
+    @FindBy(xpath = "//*[@id=\"issues-table\"]//td")
+    public WebElement firstIssueInTimeInState;
 
-    public void activitiesInsight(){}
+    @FindBy(xpath = "//*[text()='There is no data']")
+    public WebElement thereIsNoDataText;
+
+    @FindBy(id = "select2-project_filter-results")
+    public WebElement projectsInTheProjectsList;
+
+    @FindBy(xpath = "(//*[@id=\"issues-table\"]//td)[1]")
+    public WebElement issueTimeInStateSearchResultText;
+
+    public void timeInStateSearch(){
+        String activePageText="";
+        if (isElementDisplayed(pageTitle2)&isElementDisplayed(pageTitle1)){
+            activePageText=pageTitle2.getText()+"-"+pageTitle1.getText();
+        } else if (isElementDisplayed(pageTitle1)) {
+            activePageText=pageTitle1.getText();
+        }
+        else {
+            activePageText=pageTitleDefault.getText();
+        }
+        JSUtilities.scrollToElement(driver,searchBoxTimeInState);
+        ReusableMethods.wait(1);
+        ReusableMethods.waitForVisibilityNew(driver,searchBoxTimeInState);
+        String firstIssueLowerCase=firstIssueInTimeInState.getText().toLowerCase();
+        searchBoxTimeInState.sendKeys(firstIssueLowerCase);
+        ReusableMethods.wait(1);
+        if(issueTimeInStateSearchResultText.getText().toLowerCase().contains(firstIssueLowerCase)){
+            Logger.infoWithPage("Time In State Search Box Result Are Case-InSensitive",activePageText);
+        }else {
+            Logger.errorWithPage("Time In State Search Box Result Are Case-Sensitive",activePageText);
+            Assert.fail();
+        }
+    }
+
+    public void projectHealthInsight(){
+        projectHealthInsights.click();
+        projectSearch();
+        teamSearch();
+        epicSearch();
+        timeInStateSearch();
+    }
+
+    @FindBy(id = "select2-activities_switcher-container")
+    public WebElement activitiesFilterBox;
+
+    @FindBy(id = "select2-repo_filter-container")
+    public WebElement repositoryFilterBox;
+
+    @FindBy(id = "ms-list-1")
+    public WebElement multipleRepositoriesFilterBox;
+
+    @FindBy(xpath = "(//*[@id=\"select2-repo_filter-results\"]//li)[2]")
+    public WebElement firstRepository;
+
+    @FindBy(xpath = "(//*[@id=\"multiple-repositories\"]//li)[1]")
+    public WebElement firstMultipleRepository;
+
+    @FindBy(xpath = "(//*[@id=\"select2-repo_filter-results\"]//li)[1]")
+    public WebElement repositorySearchResultText;
+
+    @FindBy(xpath = "//*[@id=\"ms-list-1\"]//*[@type=\"text\"]")
+    public WebElement searchBoxRepositoryDORA;
+
+    public void repositorySearch(){
+        String activePageText="";
+        if (isElementDisplayed(pageTitle2)&isElementDisplayed(pageTitle1)){
+            activePageText=pageTitle2.getText()+"-"+pageTitle1.getText();
+        } else if (isElementDisplayed(pageTitle1)) {
+            activePageText=pageTitle1.getText();
+        }
+        else {
+            activePageText=pageTitleDefault.getText();
+        }
+        ReusableMethods.wait(1);
+        if(isElementDisplayed(repositoryFilterBox)){
+            repositoryFilterBox=repositoryFilterBox;
+        } else {
+            repositoryFilterBox=multipleRepositoriesFilterBox;
+        }
+        ReusableMethods.waitForVisibilityNew(driver,repositoryFilterBox);
+        repositoryFilterBox.click();
+        ReusableMethods.wait(1);
+        String firstRepoUpperCase="";
+        String firstMultipleRepoUpperCase="";
+        if (isElementDisplayed(firstRepository)){
+             firstRepoUpperCase=firstRepository.getText().toUpperCase();
+        }
+        else {
+            firstMultipleRepoUpperCase=firstMultipleRepository.getText().toUpperCase();
+            firstRepoUpperCase=firstMultipleRepoUpperCase;
+        }
+
+        if (!isElementDisplayed(searchBox)){
+            searchBox=searchBoxRepositoryDORA;
+        }
+        searchBox.sendKeys(firstRepoUpperCase);
+        ReusableMethods.wait(1);
+        if(isElementDisplayed(repositorySearchResultText)){
+            repositorySearchResultText=repositorySearchResultText;
+        }
+        else {
+            repositorySearchResultText=firstMultipleRepository;
+        }
+        if(repositorySearchResultText.getText().toUpperCase().contains(firstRepoUpperCase)){
+            Logger.infoWithPage("Repository Search Box Result Are Case-InSensitive",activePageText);
+        }else {
+            Logger.errorWithPage("Repository Search Box Result Are Case-Sensitive",activePageText);
+            Assert.fail();
+        }
+    }
+
+    @FindBy(xpath = "//*[@id=\"commits-chart_filter\"]//*[@type=\"search\"]")
+    public WebElement searchBoxCommit;
+
+    @FindBy(xpath = "(//*[@id=\"commits-chart\"]//tr//td)[2]")
+    public WebElement firstCommitMessage;
+
+    public void commitSearch(){
+        String activePageText="";
+        if (isElementDisplayed(pageTitle2)&isElementDisplayed(pageTitle1)){
+            activePageText=pageTitle2.getText()+"-"+pageTitle1.getText();
+        } else if (isElementDisplayed(pageTitle1)) {
+            activePageText=pageTitle1.getText();
+        }
+        else {
+            activePageText=pageTitleDefault.getText();
+        }
+        ReusableMethods.wait(1);
+        ReusableMethods.waitForVisibilityNew(driver,searchBoxCommit);
+        String firstCommitMessageUpperCase=firstCommitMessage.getText().toUpperCase();
+        searchBoxCommit.sendKeys(firstCommitMessageUpperCase);
+        ReusableMethods.wait(2);
+        if(firstCommitMessage.getText().toUpperCase().contains(firstCommitMessageUpperCase)){
+            Logger.infoWithPage("Commit Search Box Result Are Case-InSensitive",activePageText);
+        }else {
+            Logger.errorWithPage("Commit Search Box Result Are Case-Sensitive",activePageText);
+            Assert.fail();
+        }
+    }
+
+    public void activitiesInsight(){
+        activitiesInsights.click();
+        projectSearch();
+        repositorySearch();
+        teamSearch();
+        commitSearch();
+    }
 
     public void checkSearchCaseInSensitiveInsights(){
         overviewInsight();
         codeProgressInsight();
+        devBehaviorsInsight();
+        projectHealthInsight();
+        activitiesInsight();
+    }
+
+    public void checkSearchCaseInSensitiveDORA(){
+        doraLogo.click();
+        selectDemoMode();
+        ReusableMethods.waitForVisibilityNew(driver,projectFilterBox);
+        projectSearch();
+        repositorySearch();
+        ReusableMethods.waitForVisibilityNew(driver,disableDemoModeButton);
+        JSUtilities.scrollToElement(driver,disableDemoModeButton);
+        JSUtilities.clickWithJS(driver,disableDemoModeButton);
+        try {
+            Assert.assertTrue(isElementDisplayed(disableDemoModeButton));
+        } catch (Exception e) {
+            Logger.info("DEMO Mode is Disabled!");
+        }
+    }
+
+    public void checkSearchCaseInSensitiveResourceDistribution(){
+        resourceDistributionLogo.click();
+        selectDemoMode();
+        ReusableMethods.waitForVisibilityNew(driver,projectFilterBox);
+        projectSearch();
+        teamSearch();
+        ReusableMethods.waitForVisibilityNew(driver,disableDemoModeButton);
+        JSUtilities.scrollToElement(driver,disableDemoModeButton);
+        JSUtilities.clickWithJS(driver,disableDemoModeButton);
+        try {
+            Assert.assertTrue(isElementDisplayed(disableDemoModeButton));
+        } catch (Exception e) {
+            Logger.info("DEMO Mode is Disabled!");
+        }
+    }
+
+    @FindBy(xpath = "//*[@id=\"data-table_filter\"]//*[@type=\"search\"]")
+    public WebElement sprintSearchBox;
+
+    @FindBy(xpath = "(//*[@id=\"data-table\"]//td)[1]")
+    public WebElement firstSprintInDataTable;
+
+    public void sprintSearch(){
+        projectFilterBox.click();
+        String activePageText="";
+        if (isElementDisplayed(pageTitle2)&isElementDisplayed(pageTitle1)){
+            activePageText=pageTitle2.getText()+"-"+pageTitle1.getText();
+        } else if (isElementDisplayed(pageTitle1)) {
+            activePageText=pageTitle1.getText();
+        }
+        else {
+            activePageText=pageTitleDefault.getText();
+        }
+        ReusableMethods.wait(1);
+        ReusableMethods.waitForVisibilityNew(driver,sprintSearchBox);
+        String firstSprintUpperCase=firstSprintInDataTable.getText().toUpperCase();
+        ReusableMethods.wait(3);
+        sprintSearchBox.sendKeys(firstSprintUpperCase);
+        ReusableMethods.wait(3);
+        if(firstSprintInDataTable.getText().toUpperCase().contains(firstSprintUpperCase)){
+            Logger.infoWithPage("Sprint Search Box Result Are Case-InSensitive",activePageText);
+        }else {
+            Logger.errorWithPage("Sprint Search Box Result Are Case-Sensitive",activePageText);
+            Assert.fail();
+        }
+    }
+
+    public void checkSearchCaseInSensitiveSprint(){
+        sprintLogo.click();
+        projectSearch();
+        sprintSearch();
+    }
+
+    @FindBy(xpath = "//*[@id=\"data-table_filter\"]//*[@type=\"search\"]")
+    public WebElement contributorSearchBox;
+
+    @FindBy(xpath = "(//*[@id=\"data-table\"]//*[@class=\"chart-developer\"])[1]")
+    public WebElement firstContributorInDataTable;
+
+    public void contributorSearch(){
+        teamFilterBox.click();
+        String activePageText="";
+        if (isElementDisplayed(pageTitle2)&isElementDisplayed(pageTitle1)){
+            activePageText=pageTitle2.getText()+"-"+pageTitle1.getText();
+        } else if (isElementDisplayed(pageTitle1)) {
+            activePageText=pageTitle1.getText();
+        }
+        else {
+            activePageText=pageTitleDefault.getText();
+        }
+        ReusableMethods.wait(1);
+        ReusableMethods.waitForVisibilityNew(driver,contributorSearchBox);
+        String firstContributorUpperCase=firstContributorInDataTable.getText().toUpperCase();
+        ReusableMethods.wait(3);
+        contributorSearchBox.sendKeys(firstContributorUpperCase);
+        ReusableMethods.wait(3);
+        if(firstContributorInDataTable.getText().toUpperCase().contains(firstContributorUpperCase)){
+            Logger.infoWithPage("Contributor Search Box Result Are Case-InSensitive",activePageText);
+        }else {
+            Logger.errorWithPage("Contributor Search Box Result Are Case-Sensitive",activePageText);
+            Assert.fail();
+        }
+    }
+
+    @FindBy(xpath = "//*[@id=\"data-table_wrapper\"]//*[@class=\"btn btn-primary text-button manage-developer\"]")
+    public WebElement manageContributorsButton;
+
+    @FindBy(xpath = "(//*[@id=\"data-table\"]//*[@class=\"text sorting_1\"])[2]")
+    public WebElement secondContributorInManageContributorList;
+
+    @FindBy(xpath = "(//*[@id=\"data-table\"]//*[@class=\"text sorting_1\"])[1]")
+    public WebElement firstContributorInManageContributorList;
+
+    public void manageContributorSearch(){
+        manageContributorsButton.click();
+        ReusableMethods.waitForVisibilityNew(driver,contributorSearchBox);
+        String activePageText="";
+        if (isElementDisplayed(pageTitle2)&isElementDisplayed(pageTitle1)){
+            activePageText=pageTitle2.getText()+"-"+pageTitle1.getText();
+        } else if (isElementDisplayed(pageTitle1)) {
+            activePageText=pageTitle1.getText();
+        }
+        else {
+            activePageText=pageTitleDefault.getText();
+        }
+        ReusableMethods.wait(1);
+        ReusableMethods.waitForVisibilityNew(driver,contributorSearchBox);
+        String firstContributorInManageContributorUpperCase=secondContributorInManageContributorList.getText().toUpperCase();
+        ReusableMethods.wait(3);
+        contributorSearchBox.sendKeys(firstContributorInManageContributorUpperCase);
+        ReusableMethods.wait(3);
+        if(firstContributorInManageContributorList.getText().toUpperCase().contains(firstContributorInManageContributorUpperCase)){
+            Logger.infoWithPage("Manage Contributor Search Box Result Are Case-InSensitive",activePageText);
+        }else {
+            Logger.errorWithPage("Manage Contributor Search Box Result Are Case-Sensitive",activePageText);
+            Assert.fail();
+        }
+    }
+
+    public void checkSearchCaseInSensitiveContributors(){
+        contributorsLogo.click();
+        projectSearch();
+        teamSearch();
+        contributorSearch();
+        manageContributorSearch();
+    }
+
+    @FindBy(xpath = "//*[@id=\"data-table_filter\"]//*[@type=\"search\"]")
+    public WebElement projectSearchBoxInProjectPage;
+
+    @FindBy(xpath = "(//*[@id=\"data-table\"]//*[@class=\"sorting_1\"])[1]")
+    public WebElement firstProjectInProjectPage;
+
+    public void projectSearchBoxInProjectPage(){
+        ReusableMethods.waitForVisibilityNew(driver,projectSearchBoxInProjectPage);
+        String activePageText="";
+        if (isElementDisplayed(pageTitle2)&isElementDisplayed(pageTitle1)){
+            activePageText=pageTitle2.getText()+"-"+pageTitle1.getText();
+        } else if (isElementDisplayed(pageTitle1)) {
+            activePageText=pageTitle1.getText();
+        }
+        else {
+            activePageText=pageTitleDefault.getText();
+        }
+        ReusableMethods.wait(1);
+        ReusableMethods.waitForVisibilityNew(driver,projectSearchBoxInProjectPage);
+        String firstProjectInProjectPageUpperCase=firstProjectInProjectPage.getText().toUpperCase();
+        ReusableMethods.wait(3);
+        projectSearchBoxInProjectPage.sendKeys(firstProjectInProjectPageUpperCase);
+        ReusableMethods.wait(3);
+        if(firstProjectInProjectPage.getText().toUpperCase().contains(firstProjectInProjectPageUpperCase)){
+            Logger.infoWithPage("Project Search Box Result Are Case-InSensitive",activePageText);
+        }else {
+            Logger.errorWithPage("Project Search Box Result Are Case-Sensitive",activePageText);
+            Assert.fail();
+        }
+    }
+
+    @FindBy(xpath = "//*[@class=\"btn btn-outline-primary btn-with-icon\"]")
+    public WebElement addProjectButton;
+
+    @FindBy(xpath = "//*[@id=\"project-setup-form\"]//*[@name=\"name\"]")
+    public WebElement projectNameTextBox;
+
+    @FindBy(xpath = "//*[@id=\"project-setup-form\"]//*[@name=\"description\"]")
+    public WebElement descriptionTextBox;
+
+    @FindBy(xpath = "//*[@class=\"btn btn-main-primary mt-2\"]")
+    public WebElement continueButton;
+
+    @FindBy(xpath = "//*[@id=\"data-table_filter\"]//*[@type=\"search\"]")
+    public WebElement addRepositoriesSearchBox;
+
+    @FindBy(xpath = "(//*[@id=\"data-table\"]//td)[2]")
+    public WebElement firstRepositoryNameGitProvider;
+
+    @FindBy(id = "save-button")
+    public WebElement saveRepositoriesButton;
+
+    @FindBy(xpath = "//*[@data-target=\"#delete-confirm\"]")
+    public WebElement deleteProjectButton;
+
+    @FindBy(id = "confirm-delete")
+    public WebElement confirmDeleteTextBox;
+
+    @FindBy(id = "confirm-btn")
+    public WebElement confirmButton;
+
+    public void addRepositoriesSearch(){
+        addProjectButton.click();
+        ReusableMethods.waitForVisibilityNew(driver,projectNameTextBox);
+        projectNameTextBox.sendKeys("Case-InSensitive Test");
+        ReusableMethods.wait(1);
+        descriptionTextBox.sendKeys("Add Repositories Search Box Control");
+        ReusableMethods.wait(1);
+        continueButton.click();
+        ReusableMethods.waitForVisibilityNew(driver,addRepositoriesSearchBox);
+        String firstRepoInAddRepositoriesPageUpperCase=firstRepositoryNameGitProvider.getText().toUpperCase();
+        ReusableMethods.wait(3);
+        addRepositoriesSearchBox.sendKeys(firstRepoInAddRepositoriesPageUpperCase);
+        ReusableMethods.wait(3);
+        if(firstRepositoryNameGitProvider.getText().toUpperCase().contains(firstRepoInAddRepositoriesPageUpperCase)){
+            Logger.info("Add Repositories Search Box Result Are Case-InSensitive in Add Repositories!");
+        }else {
+            Logger.error("Add Repositories Search Box Result Are Case-Sensitive in Add Repositories!");
+            Assert.fail();
+        }
+        firstRepositoryNameGitProvider.click();
+        saveRepositoriesButton.click();
+        ReusableMethods.waitForVisibilityNew(driver,deleteProjectButton);
+        deleteProjectButton.click();
+        ReusableMethods.waitForVisibilityNew(driver,confirmButton);
+        confirmDeleteTextBox.sendKeys("DELETE");
+        confirmButton.click();
+    }
+
+    public void checkSearchCaseInSensitiveProjects(){
+        projectsLogo.click();
+        projectSearchBoxInProjectPage();
+        addRepositoriesSearch();
+
 
 
 
@@ -640,16 +1100,6 @@ public class AtlasPage extends BasePage {
 
 
     }
-
-    public void checkSearchCaseInSensitiveDORA(){}
-
-    public void checkSearchCaseInSensitiveResourceDistribution(){}
-
-    public void checkSearchCaseInSensitiveSprint(){}
-
-    public void checkSearchCaseInSensitiveContributors(){}
-
-    public void checkSearchCaseInSensitiveProjects(){}
 
     public void checkSearchCaseInSensitiveAutomations(){}
 

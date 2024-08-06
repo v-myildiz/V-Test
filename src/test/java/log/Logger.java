@@ -27,6 +27,10 @@ public class Logger {
         log("INFO", message);
     }
 
+    public static void infoWithPage(String message,String page) {
+        log("INFO", message+" in "+page+"!");
+    }
+
     public static void debug(String message) {
         log("DEBUG", message);
     }
@@ -37,5 +41,9 @@ public class Logger {
 
     public static void error(String message) {
         log("ERROR", message);
+    }
+
+    public static void errorWithPage(String message,String page) {
+        log("ERROR", message+" in "+page+"!");
     }
 }
