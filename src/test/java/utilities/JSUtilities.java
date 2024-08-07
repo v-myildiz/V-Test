@@ -10,9 +10,16 @@ import java.time.Duration;
 public class JSUtilities {
 
     // A function that scrolls the page up to the specified element.
+    //  public static void scrollToElement(WebDriver driver, WebElement element) {
+    //        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    //   }
+
     public static void scrollToElement(WebDriver driver, WebElement element) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        // Elementin tam olarak ekranın ortasında olması için
+        js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
     }
+
 
     // A function that clicks the specified element using the JavaScriptExecutor.
     public static void clickWithJS(WebDriver driver, WebElement element) {

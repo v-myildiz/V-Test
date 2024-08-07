@@ -6,14 +6,15 @@ import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Assert;
-import org.openqa.selenium.By;
+import log.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import pages.Dashboard.AtlasPage;
-import utilities.ReusableMethods;
+import utilities.TestData.MailReader;
 
-import java.util.NoSuchElementException;
+import javax.mail.MessagingException;
+import java.io.IOException;
+import static org.junit.Assert.assertTrue;
 
 public class AtlasPageSteps extends BaseStep {
     AtlasPage atlasPage = new AtlasPage(driver);
@@ -24,6 +25,35 @@ public class AtlasPageSteps extends BaseStep {
             scenario.attach(screenshot, "image/png", "failed_screenshot_" + scenario.getName());
         } else {
             Driver.closeDriver();
+        }
+    }
+
+    private MailReader mailReader = new MailReader();
+
+    @Given("Login to the website as an User with Mailtrap.")
+    public void login_to_the_website_as_an_user_with_mailtrap() {
+        try {
+            atlasPage.loadHomePageN2();
+            atlasPage.mailBox.sendKeys("myildiz@valven.com");
+            atlasPage.passwordBox.sendKeys("Asdasdasd.123");
+            atlasPage.signInText.click();
+            // Take the OTP Code from the Mailtrap
+            String otp = mailReader.getOtpCode();
+
+            if (otp == null) {
+                throw new Exception("OTP not received from Mailtrap.");
+            }
+            // Enter the OTP code into OTP Field
+            Logger.info("OTP CODE : "+otp);
+            atlasPage.otpField.sendKeys(otp);
+            atlasPage.signInText.click();
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
